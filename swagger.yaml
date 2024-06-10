@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+ title: PDF Summary API
+ description: API to generate summaries for PDF document pages
+ version: 1.0.0
+
+servers:
+ - url: http://localhost:3000
+
+paths:
+ /:
+   post:
+     summary: Generate a summary for a range of pages in a PDF document
+     requestBody:
+       required: true
+       content:
+         multipart/form-data:
+           schema:
+             $ref: '#/components/schemas/PDFUpload'
+     responses:
+       '200':
+         description: Successful response
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/SummaryResponse'
+       '400':
+         description: Invalid request parameters
+         content:
+           text/plain:
+             schema:
+               type: string
+               example: Start page and end page are required.
+       '500':
+         description: Internal server error
+         content:
+           text/plain:
+             schema:
+               type: string
+               example: Error processing request
+
+components:
+ schemas:
+   PDFUpload:
+     type: object
+     properties:
+       document:
+         type: string
+         format: binary
+       startPage:
+         type: integer
+       stopPage:
+         type: integer
+       bookAuthor:
+         type: string
+       bookSubject:
+         type: string
+       genre:
+         type: string
+       bookTitle:
+         type: string
+     required:
+       - document
+       - startPage
+       - stopPage
+
+   SummaryResponse:
+     type: object
+     properties:
+       message:
+         type: string
+         example: Summary generated
+       source:
+         type: string
+         example: Gemini
+       summary:
+         type: string
+       tokens:
+         type: integer

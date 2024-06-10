@@ -3,12 +3,14 @@ const multer = require("multer");
 const pdf = require("pdf-parse");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const OpenAI = require("openai");
-const dotenv = require("dotenv");
+const dotenv = require("dotenv");;
+const swaggerSetup = require('./swagger');
 
 dotenv.config();
 
 const app = express();
 const port = 3000;
+
 
 // Configure Gemini API key
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
@@ -169,4 +171,8 @@ async function generateSummaryWithOpenAI(openai, prompt) {
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Swagger documentation available at http://localhost:${port}/api-docs`);
 });
+// Setup Swagger documentation
+swaggerSetup.setup(app);
+
