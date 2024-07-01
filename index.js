@@ -3,7 +3,7 @@ const multer = require("multer");
 const pdf = require("pdf-parse");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const OpenAI = require("openai");
-const dotenv = require("dotenv");;
+const dotenv = require("dotenv");
 const swaggerSetup = require('./swagger');
 
 dotenv.config();
